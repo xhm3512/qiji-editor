@@ -38,7 +38,7 @@
     "**/.eslintcache":true,
     "**/.eslintignore":true,
     "**/.eslintrc.js":true,
-    "**/.gitignore":true,
+    // "**/.gitignore":true,
     "**/.npmrc":true,
     "**/.prettierignore":true,
     "**/.prettierrc":true,
