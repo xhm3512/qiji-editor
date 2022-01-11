@@ -14,7 +14,7 @@
     "**/.npmrc":true,
     "**/.prettierignore":true,
     "**/.prettierrc":true,
-    // "**/*.json":true,
+    "**/*.json":true,
     "**/.gitlab-ci-demo.yml":true,
     "**/beta.sh":true,
     "**/bin.js":true,
