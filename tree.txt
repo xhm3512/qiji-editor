@@ -1,0 +1,90 @@
+qiji_creator
+├─.eslintignore
+├─.eslintrc.js
+├─.prettierignore
+├─.prettierrc
+├─.stylelintrc.json
+├─.umirc.ts
+├─.vcmrc
+├─CHANGELOG.md
+├─README.md
+├─beta copy.sh
+├─beta.sh
+├─commitlint.config.js
+├─jsconfig.json
+├─package-lock.json
+├─package.json
+├─stylelintrc.js
+├─tree.txt
+├─tsconfig.json
+├─typings.d.ts
+├─src
+|  ├─Loading.tsx
+|  ├─app.tsx
+|  ├─utils
+|  |   └tools.js
+|  ├─service
+|  |    ├─api.js
+|  |    ├─axios.tsx
+|  |    ├─index.js
+|  |    └urlConfig.js
+|  ├─pages
+|  |   ├─404.tsx
+|  |   ├─index.less
+|  |   ├─index.tsx
+|  |   ├─Works
+|  |   |   ├─index.less
+|  |   |   └index.tsx
+|  |   ├─Salary
+|  |   |   ├─index.less
+|  |   |   └index.tsx
+|  |   ├─My
+|  |   | ├─index.less
+|  |   | └index.tsx
+|  |   ├─Message
+|  |   |    ├─index.less
+|  |   |    └index.tsx
+|  |   ├─Data
+|  |   |  ├─index.less
+|  |   |  └index.tsx
+|  |   ├─Authen
+|  |   |   ├─index.less
+|  |   |   └index.tsx
+|  ├─models
+|  |   └crowd.tsx
+|  ├─layouts
+|  |    ├─_defaultProps.tsx
+|  |    ├─index.less
+|  |    └index.tsx
+|  ├─components
+|  |     ├─SideMenu
+|  |     |    ├─index.less
+|  |     |    └index.tsx
+|  |     ├─Modal
+|  |     |   └index.tsx
+|  ├─.umi-production
+|  ├─.umi
+|  |  ├─umi.ts
+|  |  ├─plugin-request
+|  |  |       └request.ts
+|  |  ├─plugin-model
+|  |  |      ├─Provider.tsx
+|  |  |      ├─runtime.tsx
+|  |  |      ├─useModel.tsx
+|  |  |      ├─helpers
+|  |  |      |    ├─constant.tsx
+|  |  |      |    ├─dispatcher.tsx
+|  |  |      |    └executor.tsx
+|  |  ├─plugin-initial-state
+|  |  |          ├─Provider.tsx
+|  |  |          ├─exports.ts
+|  |  |          ├─runtime.tsx
+|  |  |          ├─models
+|  |  |          |   └initialState.ts
+|  |  ├─plugin-helmet
+|  |  |       └exports.ts
+|  |  ├─plugin-dva
+|  |  |     ├─connect.ts
+|  |  |     ├─dva.ts
+|  |  |     ├─exports.ts
+|  |  |     └runtime.tsx

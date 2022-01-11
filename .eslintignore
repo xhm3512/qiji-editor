@@ -1,0 +1,6 @@
+dist
+node_modules
+bin.js
+dll
+src/public
+.history

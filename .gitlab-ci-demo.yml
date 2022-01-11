@@ -1,0 +1,30 @@
+stages: # 分段
+  - install
+  - eslint
+  - build
+
+cache: # 缓存
+  paths:
+    - node_modules
+    - dist
+
+install-job:
+  tags:
+    - sss
+  stage: install
+  script:
+    - npm install
+
+eslint-job:
+  tags:
+    - sss
+  stage: eslint
+  script:
+    - npm run lint
+
+build-job:
+  tags:
+    - sss
+  stage: build
+  script:
+    - npm run build-test

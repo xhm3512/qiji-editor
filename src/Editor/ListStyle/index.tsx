@@ -1,0 +1,20 @@
+import React from 'react';
+import { Menu, Dropdown, Button } from 'antd';
+import { StyleButton } from '../components/StyleButton'
+import BLOCK_TYPES from './types'
+import './index.less'
+export default (props: any) => {
+    const { editorState, onToggle } = props;
+    return (
+        <span className='RichEditor-controls'>
+            {BLOCK_TYPES.map(type =>
+                <StyleButton
+                    key={type.label}
+                    label={type.label}
+                    onToggle={onToggle}
+                    style={type.style}
+                />
+            )}
+        </span>
+    );
+}

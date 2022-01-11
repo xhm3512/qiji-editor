@@ -1,0 +1,14 @@
+**/*.md
+**/*.svg
+**/*.ejs
+**/*.html
+package.json
+.umi
+.umi-production
+.umi-test
+stats.json
+dist
+node_modules
+bin.js
+dll
+src/public
