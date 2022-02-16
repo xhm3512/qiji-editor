@@ -8,6 +8,7 @@ import ExportContent from './ExportContent' //导出
 import ForwardBack from './ForwardBack' //前进后退
 import BlockStyle from './BlockStyle'
 import ListStyle from './ListStyle'
+import FontColorControl from './FontColorControl'
 import { rawContent, myBlockRenderer } from './ToolRender'
 import exportHtml from './exportHtml' //导出html处理
 import 'draft-js/dist/Draft.css';
@@ -17,7 +18,20 @@ export default () => {
     const editor = useRef<any>()
     const editorRender = useRef<any>()
     // const [editorState, setEditorState] = useState(EditorState.createEmpty())
-    const [editorState, setEditorState] = useState(EditorState.createWithContent(ContentState.createFromText('从暴怒的李成仁身上散发出一股让')))
+    const [editorState, setEditorState] = useState(EditorState.createWithContent(ContentState.createFromText(`
+    从暴怒的李成
+
+    仁身上散发出一股让我都不可小视的气息。
+    
+    而我当即也不甘示弱，几乎和李成仁是同一时间开启了阳神面具，我的右眼也随之睁开。
+    
+    从暴怒的李成
+
+    仁身上散发出一股让我都不可小视的气息。
+
+    而我当即也不甘示弱，几乎和李成仁是同一时间开启了阳神面具，我的右眼也随之睁开。
+
+`)))
     const blocks = convertFromRaw(rawContent);
     // const [editorState, setEditorState] = useState(EditorState.createWithContent(blocks))
     useEffect(() => {
@@ -39,10 +53,6 @@ export default () => {
      * @param editorState 
      */
     const onChange = (newState: any, style?: any) => {
-        console.log(1000, newState.toJS());
-        console.log(2000, newState.getCurrentContent().toJS());
-        console.log(3000, convertToRaw(newState.getCurrentContent()));
-
         const html = exportHtml(newState)
         editorRender.current.innerHTML = html
         // const oldText = editorState.getCurrentContent().getPlainText()
@@ -88,7 +98,6 @@ export default () => {
      * @param src 
      */
     const addImage = (src: string) => {
-        console.log(111, src);
         const contentState = editorState.getCurrentContent();
         const contentStateWithEntity = contentState.createEntity(
             'image',
@@ -122,7 +131,6 @@ export default () => {
 
     // 撤销
     const handleUndo = () => {
-        console.log(editorState.getAllowUndo());
         setEditorState(EditorState.undo(editorState))
 
     }
@@ -131,8 +139,6 @@ export default () => {
         setEditorState(EditorState.redo(editorState))
     }
     const onUnReDoClick = (type: string) => {
-        console.log(111, type);
-
         switch (type) {
             case 'fowrad':
                 handleUndo();
@@ -145,45 +151,61 @@ export default () => {
     const DivisionLine = () => {
         return <span className='divisionLine'></span>
     }
+    const local = {
+        start: 1, end: 5,
+        sourceText: '暴怒的李',
+        replaceText:'暴怒的li'
+    }
+    const dislodgeEmpty = (str: string) => {
+        return str.replace(/\s+/g, '').replace(/[\n|\r|\r\n]/g, '');
+      }
+ 
+    
     return (
         <div className='editor-box'>
             <div className='oprate-wrap'>
+                {/* 行内样式 */}
                 <InlineStyle
                     onToggle={toggleInlineStyle}
                 />
+                {/* 块内样式 */}
                 <BlockStyle
                     editorState={editorState}
                     onToggle={toggleBlockType}
                 />
+                {/* <FontColorControl/> */}
                 <DivisionLine />
+                {/* 列表等 */}
                 <ListStyle
                     editorState={editorState}
                     onToggle={toggleBlockType}
                 />
                 <DivisionLine />
+                {/* 上传图片 */}
                 <AddImage
                     editorState={editorState}
                     addImage={addImage}
                 />
                 <DivisionLine />
+                {/* 添加链接 */}
                 <LinkEditor
                     editorState={editorState}
                     onToggle={addTextLink}
                 />
                 <DivisionLine />
-
+                {/* 前进后退 */}
                 <ForwardBack onUnReDoClick={onUnReDoClick} />
                 <DivisionLine />
+                {/* 导出 */}
                 <ExportContent
                     editorState={editorState}
                 />
             </div>
-
             <Row className='wrap'>
                 <Col className='item-edit' span={12}>
-                    <div className='editor' onClick={focusEditor}>
+                    <div       ref={editor} className='editor' onClick={focusEditor}>
                         <Editor
-                            ref={editor}
+                      
                             blockStyleFn={(block: any) => myBlockRenderer(block, {})}
                             blockRendererFn={(block: any) => myBlockRenderer(block, {})}
                             placeholder={'Write what you would say.'}
@@ -193,6 +215,9 @@ export default () => {
                             handleKeyCommand={handleKeyCommand}
                         />
                     </div>
+                    {/* <div className='sign-box'>
+                        <div className='sign-item' style={{width:'10px',left:'10px'}}></div>
+                    </div> */}
                 </Col>
                 <Col className='item-pre' span={12}>
                     <div ref={editorRender}>1</div>

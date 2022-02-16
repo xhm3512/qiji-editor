@@ -27,8 +27,7 @@ export default (editorState: any) => {
             } else if (matches) {
                 return <img src={matches[2]} />
             } else if (type === 'blockquote') {
-                
-                return <blockquote className='RichEditor-blockquote'> { block.text}</blockquote>
+                return <blockquote className='RichEditor-blockquote'/>
             }
         },
         entityToHTML: (entity, originalText) => {

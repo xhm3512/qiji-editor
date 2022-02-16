@@ -3,7 +3,7 @@ const  {url,api}= {
   api:'/authorapi'
 };
 module.exports = {
-  title: '奇迹创作平台',
+  title: '奇迹editor',
   isDark: false, // 开启暗黑模式
   isCompact: false, // 开启紧凑模式
   host: 'sss1.qijizuopin.com', //主机地址

@@ -1,0 +1,50 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="Cache-Control" content="no-cache" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0,user-scalable=no" />
+<title></title>
+<style>
+    .highlight{
+        background-color: yellow;
+    }
+</style>
+</head>
+<body>
+    <input id="search" type="search">
+    <input id="searchbtn" type="button" value="search">
+    <div id="pretime">
+        西丰、五女山、雨格、离堆公园、迎宾路、五女山、雨格、离堆公园、迎宾路、西丰、五女山、雨格、离堆公园、迎宾路、五女山、雨格、离堆公园、迎宾路西丰、五女山、雨格、离堆公园、迎宾路、五女山、雨格、离堆公园、迎宾路西丰、五女山、雨格、离堆公园、迎宾路、五女山、雨格、离堆公园、迎宾路西丰、五女山、雨格、离堆公园、迎宾路、五女山、雨格、离堆公园、迎宾路西丰、五女山、雨格、离堆公园、迎宾路、五女山、雨格、离堆公园、迎宾路西丰、五女山、雨格、离堆公园、迎宾路、五女山、雨格、离堆公园、迎宾路
+    </div>
+<script>
+String.prototype.Trim = function()
+{//去空格
+    return this.replace(/\s/gi,"")
+}
+
+function searchTarget(searchtext){//查找处理
+    var reg = new RegExp(searchtext,"g");
+    var objtext = document.getElementById("pretime").innerHTML;
+    var sCurText;
+    if(!reg.test(objtext)){//没找到
+        alert(" can not find!");
+        return;
+    }
+    else{//找到
+        var prehtml = document.getElementById("pretime").innerHTML;//获取目标文本容器的HTML字符串
+        var newinner = prehtml.replace(reg,'<span class="highlight">'+searchtext+'</span>')//处理HTML字符串，为目标文本加上样式，即替换对应的HTML结构
+        document.getElementById("pretime").innerHTML = newinner;//把处理后的HTML字符串写回到容器中
+    }
+
+}
+
+window.onload = function(){
+    document.getElementById("searchbtn").onclick = function(){
+        var searchtext = document.getElementById("search").value.Trim();
+        searchTarget(searchtext);
+    }
+}
+</script>
+</body>
+</html>
