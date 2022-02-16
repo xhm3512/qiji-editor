@@ -6,8 +6,6 @@ export default ({onToggle}:any) => {
     { label: 'Bold', style: 'BOLD' },
     { label: 'Italic', style: 'ITALIC' },
     { label: 'Underline', style: 'UNDERLINE' },
-    // { label: 'Monospace', style: 'CODE' },
-    // { label: 'Red', style: 'RED' },
     { label: 'line', style: 'STRIKETHROUGH' },
    
   ];

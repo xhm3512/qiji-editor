@@ -18,17 +18,17 @@
       textDecoration: 'underline'
   },
   // 自定义
-  'COLOR_RED': {
+  'BACKGROUND_RED': {
       backgroundColor: 'red'
   },
-  'COLOR_BLUE': {
-      backgroundColor: '#597aae'
+  'BACKGROUND_BLUE': {
+      backgroundColor: 'blue'
   },
   'COLOR_ORANGE': {
-      color: '#f93'
+    color: '#f93'
   },
   'COLOR_GREEN': {
-      color: '#3a6'
+      color: 'green'
   },
   'RED': {
       color: 'red',

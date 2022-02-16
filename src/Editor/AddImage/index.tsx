@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { Upload, message, Button } from 'antd';
-import {BtnIcon} from '../components/StyleButton'
+import { BtnIcon } from '../components/StyleButton'
 import './index.less'
 export default ({ addImage }: any) => {
 
@@ -27,10 +27,10 @@ export default ({ addImage }: any) => {
   }
   return <span className='RichEditor-controls'>
     <Upload
-        showUploadList={false}
+      showUploadList={false}
       beforeUpload={beforeUpload}
     >
-     <BtnIcon type='upImage'/>
+      <BtnIcon type='upImage' />
     </Upload>
   </span>
 

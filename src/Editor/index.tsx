@@ -9,7 +9,7 @@ import ForwardBack from './ForwardBack' //前进后退
 import BlockStyle from './BlockStyle'
 import ListStyle from './ListStyle'
 import FontColorControl from './FontColorControl'
-import { rawContent, myBlockRenderer } from './ToolRender'
+import { myBlockRenderer } from './ToolRender'
 import exportHtml from './exportHtml' //导出html处理
 import 'draft-js/dist/Draft.css';
 import './index.less'
@@ -32,7 +32,6 @@ export default () => {
     而我当即也不甘示弱，几乎和李成仁是同一时间开启了阳神面具，我的右眼也随之睁开。
 
 `)))
-    const blocks = convertFromRaw(rawContent);
     // const [editorState, setEditorState] = useState(EditorState.createWithContent(blocks))
     useEffect(() => {
         // focusEditor()
@@ -151,16 +150,6 @@ export default () => {
     const DivisionLine = () => {
         return <span className='divisionLine'></span>
     }
-    const local = {
-        start: 1, end: 5,
-        sourceText: '暴怒的李',
-        replaceText:'暴怒的li'
-    }
-    const dislodgeEmpty = (str: string) => {
-        return str.replace(/\s+/g, '').replace(/[\n|\r|\r\n]/g, '');
-      }
- 
-    
     return (
         <div className='editor-box'>
             <div className='oprate-wrap'>
@@ -173,7 +162,9 @@ export default () => {
                     editorState={editorState}
                     onToggle={toggleBlockType}
                 />
-                {/* <FontColorControl/> */}
+                <FontColorControl
+                    onToggle={toggleInlineStyle}
+                />
                 <DivisionLine />
                 {/* 列表等 */}
                 <ListStyle
@@ -203,9 +194,9 @@ export default () => {
             </div>
             <Row className='wrap'>
                 <Col className='item-edit' span={12}>
-                    <div       ref={editor} className='editor' onClick={focusEditor}>
+                    <div className='editor' onClick={focusEditor}>
                         <Editor
-                      
+                            ref={editor}
                             blockStyleFn={(block: any) => myBlockRenderer(block, {})}
                             blockRendererFn={(block: any) => myBlockRenderer(block, {})}
                             placeholder={'Write what you would say.'}
@@ -220,7 +211,7 @@ export default () => {
                     </div> */}
                 </Col>
                 <Col className='item-pre' span={12}>
-                    <div ref={editorRender}>1</div>
+                    <div ref={editorRender}></div>
                 </Col>
             </Row>
         </div >

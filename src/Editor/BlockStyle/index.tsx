@@ -5,22 +5,17 @@ import BLOCK_TYPES from './types'
 import './index.less'
 export default (props: any) => {
 
-    const { editorState ,onToggle} = props;
-    const selection = editorState.getSelection();
-    const blockType = editorState
-        .getCurrentContent()
-        .getBlockForKey(selection.getStartKey())
-        .getType();
-        const onBtnToggle = (e: any,style:string) => {
-            e.preventDefault();
-            onToggle(style)
-          }
+    const { onToggle } = props;
+    const onBtnToggle = (e: any, style: string) => {
+        e.preventDefault();
+        onToggle(style)
+    }
     const menu = (
         <Menu>
             {BLOCK_TYPES.map((type) =>
                 <Menu.Item key={type.label}  >
-                    <span onClick={(e)=>onBtnToggle(e,type.style)}>
-                    {type.label}
+                    <span onClick={(e) => onBtnToggle(e, type.style)}>
+                        {type.label}
                     </span>
                     {/* <StyleButton
 
@@ -36,7 +31,7 @@ export default (props: any) => {
     return (
         <span className='RichEditor-controls'>
             <Dropdown overlay={menu} placement='bottomLeft' arrow>
-            <span><BtnIcon type='H' /></span>
+                <span><BtnIcon type='H' /></span>
             </Dropdown>
         </span>
     );
