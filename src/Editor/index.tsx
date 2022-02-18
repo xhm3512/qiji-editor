@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { Editor, EditorState, RichUtils, ContentState, convertToRaw, convertFromRaw, AtomicBlockUtils } from 'draft-js';
+import { Editor, EditorState, RichUtils, ContentState, convertToRaw, Modifier, AtomicBlockUtils } from 'draft-js';
 import { Row, Col } from 'antd'
 import InlineStyle from './InlineStyle'  //行内样式
 import LinkEditor from './LinkEditor' //链接
@@ -11,15 +11,18 @@ import ListStyle from './ListStyle'
 import FontColorControl from './FontColorControl'
 import { myBlockRenderer } from './ToolRender'
 import exportHtml from './exportHtml' //导出html处理
+import { getMouseLOcal, selectDetail } from '../tools'
+import OprateModal from './OprateModal'
 import 'draft-js/dist/Draft.css';
 import './index.less'
 import styleMap from './styleMap'
 export default () => {
     const editor = useRef<any>()
     const editorRender = useRef<any>()
+    const [oprateModalLocal, setOprateModalLocal] = useState({ top: '0', left: '0' })
     // const [editorState, setEditorState] = useState(EditorState.createEmpty())
     const [editorState, setEditorState] = useState(EditorState.createWithContent(ContentState.createFromText(`
-    从暴怒的李成
+                    从暴怒的李成
 
     仁身上散发出一股让我都不可小视的气息。
     
@@ -51,68 +54,14 @@ export default () => {
      * 监听变化
      * @param editorState 
      */
-    const onChange = (newState: any, style?: any) => {
+    const onChange = (newState: any) => {
         const html = exportHtml(newState)
         editorRender.current.innerHTML = html
         // const oldText = editorState.getCurrentContent().getPlainText()
         // const newText = newState.getCurrentContent().getPlainText()
         setEditorState(newState)
     }
-    /**
-        * 行泪样式
-        * @param style 样式名
-        */
-    const toggleInlineStyle = (style: string) => {
-        onChange(
-            RichUtils.toggleInlineStyle(
-                editorState,
-                style
-            )
-        );
-    }
-    /**
-     * 块样式
-     * @param blockType 
-     */
-    const toggleBlockType = (blockType: string) => {
-        onChange(
-            RichUtils.toggleBlockType(
-                editorState,
-                blockType
-            )
-        );
-    }
-    /**
-     * 文字增加链接
-     * @param link 
-     */
-    const addTextLink = (link: any) => {
-        onChange(link)
-        // setTimeout(() => {
-        //     focusEditor()
-        // },600)
-    }
-    /**
-     * 图片上传
-     * @param src 
-     */
-    const addImage = (src: string) => {
-        const contentState = editorState.getCurrentContent();
-        const contentStateWithEntity = contentState.createEntity(
-            'image',
-            'IMMUTABLE',
-            { src }
-        );
-        const entityKey = contentStateWithEntity.getLastCreatedEntityKey();
-        const newEditorState = EditorState.set(
-            editorState,
-            { currentContent: contentStateWithEntity },
-        );
-        setEditorState(AtomicBlockUtils.insertAtomicBlock(newEditorState, entityKey, ' '))
-        setTimeout(() => {
-            blurEditor()
-        }, 0)
-    }
+
     /**
      * 定义快捷键
      * @param command 
@@ -128,73 +77,86 @@ export default () => {
         return 'not-handled';
     }
 
-    // 撤销
-    const handleUndo = () => {
-        setEditorState(EditorState.undo(editorState))
-
-    }
-    // 前进
-    const handleRedo = () => {
-        setEditorState(EditorState.redo(editorState))
-    }
-    const onUnReDoClick = (type: string) => {
-        switch (type) {
-            case 'fowrad':
-                handleUndo();
-                return false;
-            case 'back':
-                handleRedo()
-                return false;
-        }
-    }
+    // 分割线
     const DivisionLine = () => {
         return <span className='divisionLine'></span>
+    }
+    // 获得选中文本位置
+    const getDomSelectLOcal = (e: any) => {
+        
+        try {
+            const { x, y } = getMouseLOcal(e);
+            setOprateModalLocal({
+                top: `${y}px`,
+                left: `${x}px`
+            })
+        } catch (error) {
+            console.log('设置位置异常', error);
+        }
     }
     return (
         <div className='editor-box'>
             <div className='oprate-wrap'>
                 {/* 行内样式 */}
                 <InlineStyle
-                    onToggle={toggleInlineStyle}
+                    editorState={editorState}
+                    onChange={onChange}
                 />
                 {/* 块内样式 */}
                 <BlockStyle
                     editorState={editorState}
-                    onToggle={toggleBlockType}
+                    onChange={onChange}
                 />
                 <FontColorControl
-                    onToggle={toggleInlineStyle}
+                    editorState={editorState}
+                    onChange={onChange}
                 />
                 <DivisionLine />
                 {/* 列表等 */}
                 <ListStyle
                     editorState={editorState}
-                    onToggle={toggleBlockType}
+                    onChange={onChange}
                 />
                 <DivisionLine />
                 {/* 上传图片 */}
                 <AddImage
                     editorState={editorState}
-                    addImage={addImage}
+                    setEditorState={setEditorState}
+                    blurEditor={blurEditor}
                 />
                 <DivisionLine />
                 {/* 添加链接 */}
                 <LinkEditor
                     editorState={editorState}
-                    onToggle={addTextLink}
+                    onChange={onChange}
+                    focusEditor={focusEditor}
                 />
                 <DivisionLine />
                 {/* 前进后退 */}
-                <ForwardBack onUnReDoClick={onUnReDoClick} />
+                <ForwardBack
+                    editorState={editorState}
+                    setEditorState={setEditorState}
+                />
                 <DivisionLine />
                 {/* 导出 */}
                 <ExportContent
                     editorState={editorState}
                 />
             </div>
+            {/* 操作弹窗 */}
+            <OprateModal
+                setEditorState={setEditorState}
+                editorState={editorState}
+                oprateModalLocal={oprateModalLocal}
+                blurEditor={blurEditor}
+            />
             <Row className='wrap'>
                 <Col className='item-edit' span={12}>
-                    <div className='editor' onClick={focusEditor}>
+                    <div
+                        className='editor'
+                        onClick={focusEditor}
+                        onMouseUp={e => getDomSelectLOcal(e)}
+                    >
                         <Editor
                             ref={editor}
                             blockStyleFn={(block: any) => myBlockRenderer(block, {})}
@@ -204,6 +166,10 @@ export default () => {
                             onChange={onChange}
                             customStyleMap={styleMap}
                             handleKeyCommand={handleKeyCommand}
+                            textAlignment='left'
+                            autoCorrect='true'
+                            spellCheck={true}
+
                         />
                     </div>
                     {/* <div className='sign-box'>

@@ -7,11 +7,21 @@ import {
   RichUtils
 } from 'draft-js';
 import { LinkButton } from '../components/StyleButton'
-export default ({ editorState, onToggle }: any) => {
+export default ({ editorState, onChange ,focusEditor}: {editorState:any,onChange:any,focusEditor:any}) => {
   const [showModal, setShowModal] = useState(false)
   const [url, setUrl] = useState('')
   const showModalClick = () => {
     setShowModal(true)
+  }
+    /**
+     * 文字增加链接
+     * @param link 
+     */
+     const addTextLink = (link: any) => {
+      onChange(link)
+      setTimeout(() => {
+          focusEditor()
+      }, 10)
   }
   const addLink = () => {
     handleCancel()
@@ -34,7 +44,7 @@ export default ({ editorState, onToggle }: any) => {
       newEditorState.getSelection(),
       entityKey
     )
-    onToggle(ff)
+    addTextLink(ff)
   }
   const handleCancel = () => {
     setShowModal(false)

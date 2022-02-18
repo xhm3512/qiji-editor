@@ -1,14 +1,16 @@
 import React from 'react';
 import { Menu, Dropdown, Button } from 'antd';
+import { RichUtils } from 'draft-js';
 import { BtnIcon } from '../components/StyleButton'
 import BLOCK_TYPES from './types'
 import './index.less'
-export default (props: any) => {
-
-    const { onToggle } = props;
+export default ({ onChange, editorState }: { onChange: any, editorState: any }) => {
     const onBtnToggle = (e: any, style: string) => {
         e.preventDefault();
-        onToggle(style)
+        onChange(RichUtils.toggleBlockType(
+            editorState,
+            style
+        ))
     }
     const menu = (
         <Menu>
@@ -30,7 +32,7 @@ export default (props: any) => {
     )
     return (
         <span className='RichEditor-controls'>
-            <Dropdown overlay={menu} placement='bottomLeft' arrow>
+            <Dropdown overlay={menu} placement='bottomLeft' arrow >
                 <span><BtnIcon type='H' /></span>
             </Dropdown>
         </span>

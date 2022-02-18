@@ -1,50 +1,80 @@
-<!DOCTYPE HTML>
-<html>
+<!DOCTYPE html>
+<html lang="en">
+
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta http-equiv="Cache-Control" content="no-cache" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0,user-scalable=no" />
-<title></title>
-<style>
-    .highlight{
-        background-color: yellow;
-    }
-</style>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script>
+        /**
+        * 保存选中位置，用于老IE
+        */
+        function savePos(editor) {
+            // 判断对象是否支持某方法：if (对象.方法名) {} 方法名后不必带()
+            // if (editor.createTextRange && document.selection) { // 老IE
+            //     if (document.selection.createRange) {
+            //         editor.caretPos = document.selection.createRange().duplicate();
+            //     }
+            // }
+        }
+            /**
+            * 替换选择的文本用于input 和 textarea
+            */
+            function replaceSelection(name, text) {
+                // 获取编辑器textarea对象
+                var editor = document.getElementById(name);
+                // if (!editor) {
+                //     var editors = document.getElementsByName(name);
+                //     if (editors && editors.length > 0) {
+                //         editor = editors[0];
+                //     }
+                // }
+                if (!text) { // 如果没传递文本就不执行
+                    editor.focus(); //归还焦点
+                    return false;
+                }
+                if (editor.createTextRange && editor.caretPos) { // 老IE
+                    editor.focus(); // 防止无限扩选
+                    var selectStr = editor.caretPos.text;
+                    if (selectStr && selectStr.substring(selectStr.length - 1) == " ") {
+                        text += " "; // 右边多选中一个空格，替换后再补一个空格，优化编辑体验
+                    }
+                    editor.caretPos.text = text;
+                } else if (editor.setSelectionRange) {
+                    // 非老IE，利用选区的开始索引和结束索引重新拼串，而不是直接操作选取，达到替换选取的目的
+                    // 获取选中的问题
+                    var selectionStart; // textarea选中文本的开始索引
+                    var selectionEnd; // textarea选中文本的结束索引
+                    selectionStart = editor.selectionStart;
+                    selectionEnd = editor.selectionEnd;
+                    var selectStr = editor.value.substring(selectionStart, selectionEnd);
+                    if (selectStr && selectStr.substring(selectStr.length - 1) == " ") {
+                        text += " ";
+                    }
+                    var leftStr = editor.value.substring(0, selectionStart);
+                    var rightStr = editor.value.substring(selectionEnd, editor.value.length);
+                    editor.value = leftStr + text + rightStr;
+                    //重新选中新文本
+                    selectionEnd = selectionStart + text.length;
+                    editor.setSelectionRange(selectionStart, selectionEnd);
+                    //非IE浏览器必须获取焦点
+                    editor.focus();
+                }
+            }
+        
+    </script>
 </head>
+
 <body>
-    <input id="search" type="search">
-    <input id="searchbtn" type="button" value="search">
-    <div id="pretime">
-        西丰、五女山、雨格、离堆公园、迎宾路、五女山、雨格、离堆公园、迎宾路、西丰、五女山、雨格、离堆公园、迎宾路、五女山、雨格、离堆公园、迎宾路西丰、五女山、雨格、离堆公园、迎宾路、五女山、雨格、离堆公园、迎宾路西丰、五女山、雨格、离堆公园、迎宾路、五女山、雨格、离堆公园、迎宾路西丰、五女山、雨格、离堆公园、迎宾路、五女山、雨格、离堆公园、迎宾路西丰、五女山、雨格、离堆公园、迎宾路、五女山、雨格、离堆公园、迎宾路西丰、五女山、雨格、离堆公园、迎宾路、五女山、雨格、离堆公园、迎宾路
+    <input type="button" value="替换文本域中的选中文本" onclick="replaceSelection('editor','AAA')">
+    <div>
+        <span>
+            <textarea id="editor" name="editor" cols="30" rows="10" onkeydown="savePos(this)" onkeyup="savePos(this)"
+                onmousedown="savePos(this)" onmouseup="savePos(this)"
+                onfocus="savePos(this)">这是一段测试文字，测试文本域中替换选择的文本。如果末尾是空格 ，替换后把空格补上。</textarea>
+        </span>
     </div>
-<script>
-String.prototype.Trim = function()
-{//去空格
-    return this.replace(/\s/gi,"")
-}
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 
-function searchTarget(searchtext){//查找处理
-    var reg = new RegExp(searchtext,"g");
-    var objtext = document.getElementById("pretime").innerHTML;
-    var sCurText;
-    if(!reg.test(objtext)){//没找到
-        alert(" can not find!");
-        return;
-    }
-    else{//找到
-        var prehtml = document.getElementById("pretime").innerHTML;//获取目标文本容器的HTML字符串
-        var newinner = prehtml.replace(reg,'<span class="highlight">'+searchtext+'</span>')//处理HTML字符串，为目标文本加上样式，即替换对应的HTML结构
-        document.getElementById("pretime").innerHTML = newinner;//把处理后的HTML字符串写回到容器中
-    }
-
-}
-
-window.onload = function(){
-    document.getElementById("searchbtn").onclick = function(){
-        var searchtext = document.getElementById("search").value.Trim();
-        searchTarget(searchtext);
-    }
-}
-</script>
 </body>
+
 </html>

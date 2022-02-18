@@ -25,6 +25,7 @@
     "**/tree.txt":true,
     "**/*.d.ts":true,
     "**/src/public":true,
+    "**/dist":true,
     // "**/.vscode":true,
   },
   "files.exclude": {

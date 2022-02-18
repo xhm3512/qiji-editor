@@ -42,7 +42,7 @@ export default (editorState: any) => {
                 case 'LINK':
                     return <a href={entity.data.url}>{originalText}</a>;
                 case 'image':
-                    return <img className='upload-img' src={entity.data.src} />
+                    return <div className='upload-box'><img src={entity.data.src} /></div>
             }
             return originalText;
         }

@@ -1,8 +1,9 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { Popover, Button } from 'antd';
+import { RichUtils } from 'draft-js';
 import styleMap from '../styleMap'
 import './index.less'
-export default ({ onToggle }: any) => {
+export default ({ onChange,editorState }: {onChange:any,editorState:any}) => {
   const INLINE_STYLES = {
     color: [
       { label: 'Red', style: 'RED' },
@@ -15,7 +16,12 @@ export default ({ onToggle }: any) => {
   };
   const onBtnToggle = (e: any, style: string) => {
     e.preventDefault();
-    onToggle(style)
+    onChange(
+      RichUtils.toggleInlineStyle(
+          editorState,
+          style
+      )
+    )
 }
   const DDD = (list: any) => {
     return <ul>
