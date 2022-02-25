@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { Upload, message, Button } from 'antd';
 import { EditorState,AtomicBlockUtils } from 'draft-js';
-import { BtnIcon } from '../components/StyleButton'
+import { BtnIcon } from '../../components/StyleButton'
 import './index.less'
 export default ({  editorState,setEditorState,blurEditor}: {editorState:any,setEditorState:any,blurEditor:any}) => {
 

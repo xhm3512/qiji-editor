@@ -1,6 +1,6 @@
 import React from 'react';
 import {  EditorState} from 'draft-js';
-import { BtnIconClick } from '../components/StyleButton'
+import { BtnIconClick } from '../../components/StyleButton'
 export default ({ editorState ,setEditorState}: {editorState:any,setEditorState:any}) => {
   const list = [
     { label: 'fowrad' },

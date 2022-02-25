@@ -1,7 +1,7 @@
 import React from 'react';
 import { Menu, Dropdown, Button } from 'antd';
 import { RichUtils } from 'draft-js';
-import { BtnIcon } from '../components/StyleButton'
+import { BtnIcon } from '../../components/StyleButton'
 import BLOCK_TYPES from './types'
 import './index.less'
 export default ({ onChange, editorState }: { onChange: any, editorState: any }) => {

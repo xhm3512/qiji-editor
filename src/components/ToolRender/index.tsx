@@ -17,7 +17,7 @@ const rawContent: any = {
 
 const ImgComponent = (props: any) => {
   return (
-    <div>
+    <div className='upload-img-box'>
       <img
         // style={{ height: '300px', width: 'auto' }}
         src={props.blockProps.src}
@@ -28,19 +28,19 @@ const ImgComponent = (props: any) => {
 const Image = (props: any) => {
   if (!!props.src) {
     return (
-      <div>
+      <span className='upload-editor-box' >
         <img src={props.src} alt='' className='img-media' />
         <div className='close-icon' onClick={props.handleDelete}>
           {/* <img src={close_icon} /> */}
         </div>
-      </div>
+      </span>
     );
   }
   return null;
 };
 
 /**
- * 图片上传展示
+ * 图片上传到出展示
  * @param props 
  * @returns 
  */
@@ -54,7 +54,7 @@ const Media = (props: any) => {
 
   if (type === 'image') {
     const key = props.block.getKey();
-    media = <div className='upload-box'>
+    media = <div className='upload-show-box'>
       <Image
         src={src}
         blockKey={key}

@@ -6,7 +6,7 @@ import {
   EditorState,
   RichUtils
 } from 'draft-js';
-import { LinkButton } from '../components/StyleButton'
+import { LinkButton } from '../../components/StyleButton'
 export default ({ editorState, onChange ,focusEditor}: {editorState:any,onChange:any,focusEditor:any}) => {
   const [showModal, setShowModal] = useState(false)
   const [url, setUrl] = useState('')

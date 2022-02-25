@@ -6,8 +6,8 @@ import 'pdfmake/build/vfs_fonts.js'; // 导出pdf
 import pdfMake from 'pdfmake/build/pdfmake';
 import * as pdfFonts from 'pdfmake/build/vfs_fonts';
 pdfMake.vfs = pdfFonts.pdfMake.vfs; //ttr报错问题修复
-import exportHtml from '../exportHtml' //导出html处理
-import { BtnIcon } from '../components/StyleButton'
+import exportHtml from '../../components/exportHtml' //导出html处理
+import { BtnIcon } from '../../components/StyleButton'
 const BLOCK_TYPES = [
   { label: 'HTML' },
   { label: 'PDF' },

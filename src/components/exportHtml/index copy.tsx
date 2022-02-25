@@ -1,8 +1,10 @@
 import React from 'react';
-import { convertToHTML, convertFromHTML } from 'draft-convert'
-import styleMap from '../styleMap'
+import { convertToHTML } from 'draft-convert'
+import styleMap from '../../Editor/styleMap'
 import './index.less'
 export default (editorState: any) => {
+    console.log(99,editorState.getCurrentContent());
+    
     const html = convertToHTML({
         styleToHTML: (style: any) => {
             switch (style) {
@@ -36,13 +38,15 @@ export default (editorState: any) => {
             }
         },
         entityToHTML: (entity, originalText) => {
+            console.log(666,entity,originalText);
+            
             const type = entity.type
             //"image"
             switch (type) {
                 case 'LINK':
                     return <a href={entity.data.url}>{originalText}</a>;
                 case 'image':
-                    return <div className='upload-box'><img src={entity.data.src} /></div>
+                    return <div className='upload-show-box'><img src={entity.data.src} /></div>
             }
             return originalText;
         }

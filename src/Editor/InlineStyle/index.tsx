@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { RichUtils } from 'draft-js';
-import {StyleButton} from '../components/StyleButton'
+import {StyleButton} from '../../components/StyleButton'
 import './index.less'
 export default ({onChange,editorState}:{onChange:any,editorState:any}) => {
   const INLINE_STYLES = [

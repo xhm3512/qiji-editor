@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { Editor, EditorState, RichUtils, ContentState, convertToRaw, Modifier, AtomicBlockUtils } from 'draft-js';
+import { Editor, EditorState, RichUtils, ContentState, convertToRaw, convertFromRaw, convertFromHTML } from 'draft-js';
 import { Row, Col } from 'antd'
 import InlineStyle from './InlineStyle'  //行内样式
 import LinkEditor from './LinkEditor' //链接
@@ -9,10 +9,10 @@ import ForwardBack from './ForwardBack' //前进后退
 import BlockStyle from './BlockStyle'
 import ListStyle from './ListStyle'
 import FontColorControl from './FontColorControl'
-import { myBlockRenderer } from './ToolRender'
-import exportHtml from './exportHtml' //导出html处理
-import { getMouseLOcal, selectDetail } from '../tools'
-import OprateModal from './OprateModal'
+import { myBlockRenderer } from '../components/ToolRender'
+import exportHtml from '../components/exportHtml' //导出html处理
+import { getMouseLOcal, initTextState } from '../tools'
+import OprateModal from '../components/OprateModal'
 import 'draft-js/dist/Draft.css';
 import './index.less'
 import styleMap from './styleMap'
@@ -21,24 +21,32 @@ export default () => {
     const editorRender = useRef<any>()
     const [oprateModalLocal, setOprateModalLocal] = useState({ top: '0', left: '0' })
     // const [editorState, setEditorState] = useState(EditorState.createEmpty())
-    const [editorState, setEditorState] = useState(EditorState.createWithContent(ContentState.createFromText(`
-                    从暴怒的李成
-
-    仁身上散发出一股让我都不可小视的气息。
-    
-    而我当即也不甘示弱，几乎和李成仁是同一时间开启了阳神面具，我的右眼也随之睁开。
-    
-    从暴怒的李成
-
-    仁身上散发出一股让我都不可小视的气息。
-
-    而我当即也不甘示弱，几乎和李成仁是同一时间开启了阳神面具，我的右眼也随之睁开。
-
-`)))
-    // const [editorState, setEditorState] = useState(EditorState.createWithContent(blocks))
+    const id = 1222
+    const savedData = localStorage.getItem(`editorContent-${id}`) || ''
+    const saveEditorState: any = savedData && convertFromRaw(JSON.parse(savedData).data)
+    // const [editorState, setEditorState] = useState(EditorState.createWithContent(ContentState.createFromText( initTextState())))
+    const [editorState, setEditorState] = useState(EditorState.createWithContent(saveEditorState ? saveEditorState : ContentState.createFromText(initTextState())))
+    const modalAlertTip = () => {
+        const savedData = localStorage.getItem(`editorContent-${id}`) || ''
+        if (!savedData) {
+            window.onbeforeunload = null;
+            return false;
+        }
+        const saveEditorState: any = savedData && convertFromRaw(JSON.parse(savedData).data)
+        const oldText = saveEditorState.getPlainText()
+        const newText = editorState.getCurrentContent().getPlainText()
+        if (newText === oldText) {
+            window.onbeforeunload = null
+        } else {
+            window.onbeforeunload = function (event) {
+                event.returnValue = '我在这写点东西...';
+            };
+        }
+    }
     useEffect(() => {
         // focusEditor()
         onChange(editorState)
+        modalAlertTip()
     }, [])
     const focusEditor = () => {
         if (editor) {
@@ -60,6 +68,7 @@ export default () => {
         // const oldText = editorState.getCurrentContent().getPlainText()
         // const newText = newState.getCurrentContent().getPlainText()
         setEditorState(newState)
+        modalAlertTip()
     }
 
     /**
@@ -83,7 +92,7 @@ export default () => {
     }
     // 获得选中文本位置
     const getDomSelectLOcal = (e: any) => {
-        
+
         try {
             const { x, y } = getMouseLOcal(e);
             setOprateModalLocal({
@@ -93,6 +102,17 @@ export default () => {
         } catch (error) {
             console.log('设置位置异常', error);
         }
+    }
+    const onSubmitClick = () => {
+
+        const tempStateContent = JSON.stringify({
+            id,
+            data: convertToRaw(editorState.getCurrentContent())
+        })
+        localStorage.setItem(
+            `editorContent-${id}`, tempStateContent
+        )
+        modalAlertTip()
     }
     return (
         <div className='editor-box'>
@@ -142,6 +162,9 @@ export default () => {
                 <ExportContent
                     editorState={editorState}
                 />
+                <button
+                    onClick={onSubmitClick}
+                >提交</button>
             </div>
             {/* 操作弹窗 */}
             <OprateModal
