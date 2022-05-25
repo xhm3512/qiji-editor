@@ -182,15 +182,16 @@ export default () => {
                     >
                         <Editor
                             ref={editor}
+                            editorKey={'editor'}
                             blockStyleFn={(block: any) => myBlockRenderer(block, {})}
                             blockRendererFn={(block: any) => myBlockRenderer(block, {})}
                             placeholder={'Write what you would say.'}
                             editorState={editorState}
                             onChange={onChange}
                             customStyleMap={styleMap}
-                            handleKeyCommand={handleKeyCommand}
+                            // handleKeyCommand={handleKeyCommand}
                             textAlignment='left'
-                            autoCorrect='true'
+                            // autoCorrect='true'
                             spellCheck={true}
 
                         />

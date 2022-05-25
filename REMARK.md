@@ -11,3 +11,5 @@
 - 计算文字宽度高度
 - 修改替换文字：https://www.jianshu.com/p/991a1204660e
 - draft demo 选中替换：https://dev.to/rose/draft-js-simple-content-manipulation-b7a
+- example:https://www.draft-js-plugins.com/plugin/emoji
+- 空格问题：https://www.jianshu.com/p/9546c7176b7a
