@@ -1,6 +1,5 @@
-import { MentionData } from '@draft-js-plugins/mention';
 
-const mentions: MentionData[] = [
+const mentions: any = [
   {
     name: 'Matthew Russell',
     title: 'Senior Software Engineer',

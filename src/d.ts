@@ -4,4 +4,4 @@ declare module 'draftjs-utils'
 declare module 'type'
 declare module 'draft-js-export-pdfmake'
 declare module 'lodash.escaperegexp'
-// declare module 'react-mentions';
+declare module 'react-mentions';
